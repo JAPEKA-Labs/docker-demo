@@ -1,12 +1,6 @@
-FROM node:20-alpine  AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-COPY . /app
+FROM node:20-alpine AS base
 WORKDIR /app
-
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install 
-# add app
+COPY . /app
+RUN npm install
 COPY . .
-CMD [ "pnpm", "run", "dev" ]
+CMD [ "npm", "run", "dev" ]
